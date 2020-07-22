@@ -9,10 +9,10 @@
           <img [src]="post.image" [alt]="post.title">
         </div>
         {{post.content}}
-        <!-- <mat-action-row>
+        <mat-action-row>
           <a mat-raised-button color="primary" [routerLink]="['/edit',post._id]">EDIT</a>
           <button mat-raised-button color="accent"(click)="onDeletePost(post._id)">DELETE</button>
-        </mat-action-row> -->
+        </mat-action-row>
       </mat-expansion-panel>
 </mat-accordion> 
 <p  class="info-text mat-body-1" *ngIf="posts.length <= 0">No Posts added yet</p>

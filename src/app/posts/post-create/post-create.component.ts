@@ -19,7 +19,7 @@ export class PostCreateComponent implements OnInit {
   imagePreview:string;
   form:FormGroup;
 
-  formData : FormData;
+  //formData : FormData;
   constructor(public postsService:PostsService,public router:ActivatedRoute ,public routerfun:Router) { }
 
   ngOnInit(): void {
@@ -37,9 +37,10 @@ export class PostCreateComponent implements OnInit {
           .subscribe((items:any)=>{
         this.totalpost=items;
         console.log(this.totalpost);
-        console.log(this.totalpost.title);
         this.form.patchValue({title: this.totalpost.title });
         this.form.patchValue({ content: this.totalpost.content});
+        this.form.patchValue({image:this.totalpost.image});
+        //console.log(this.form);
         });
         //console.log("hlo");
         //console.log(this.totalpost);
@@ -53,14 +54,6 @@ export class PostCreateComponent implements OnInit {
     })
 
   }
-
-
-  /**onImagePick(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.formData.append('image', file);
-    }
-  } **/
 
   onImagePick(event:Event)
   {
@@ -85,17 +78,8 @@ export class PostCreateComponent implements OnInit {
     if(this.mode==="create")
     {
       console.log("entered add post page");
-      /*let newpost={
-        title:this.form.value.title,
-        content:this.form.value.content
-      }*/
-      //console.log(newpost);
-      const formData=new FormData()
-      formData.append('title',this.form.value.title);
-      formData.append('content',this.form.value.content );
-      formData.append('image', this.form.value.image);
-
-      this.postsService.addposts(formData)
+      this.postsService.addposts(this.form.value.title,this.form.value.content,
+        this.form.value.image,JSON.parse(localStorage.getItem('id')))
         .subscribe((items:any)=>{
           console.log("savedpost")
         })
@@ -106,13 +90,17 @@ export class PostCreateComponent implements OnInit {
     else
     {
       console.log("entered update post page");
-      let newpost={
-        title:this.form.value.title,
-        content:this.form.value.content
-      }
-      console.log("hloo");
-      console.log(this.postId);
-      this.postsService.updatepost(newpost,this.postId)
+      // let newpost={
+      //   title:this.form.value.title,
+      //   content:this.form.value.content,
+      //   image:this.form.value.image
+      // }
+       //console.log(this.form);
+       const postData= new FormData();
+       postData.append("title",this.form.value.title);
+       postData.append("content",this.form.value.content);
+       postData.append("image",this.form.value.image);
+       this.postsService.updatepost(postData,this.postId)
         .subscribe((items:any)=>{
           console.log(items);
           console.log("updatedpost");

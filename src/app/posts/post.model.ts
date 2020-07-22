@@ -2,5 +2,6 @@
 {
     _id:string,
     title:string,
-    content:string
+    content:string,
+    image:string
 }
